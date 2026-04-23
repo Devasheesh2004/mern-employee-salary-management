@@ -22,6 +22,7 @@ const FormAddDataPegawai = () => {
         file: '',
         preview: '',
         status: '',
+        designation: '',
         hak_akses: '',
     });
 
@@ -38,6 +39,7 @@ const FormAddDataPegawai = () => {
         file,
         preview,
         status,
+        designation,
         hak_akses,
     } = formData;
 
@@ -80,6 +82,7 @@ const FormAddDataPegawai = () => {
         newFormData.append('jabatan', jabatan);
         newFormData.append('tanggal_masuk', tanggalMasuk);
         newFormData.append('status', status);
+        newFormData.append('designation', designation);
         newFormData.append('hak_akses', hak_akses);
 
         dispatch(createDataPegawai(newFormData, navigate))
@@ -310,6 +313,31 @@ const FormAddDataPegawai = () => {
                                             </span>
                                         </div>
                                     </div>
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
+                                            Worker Designation <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <div className='relative z-20 bg-transparent dark:bg-form-input'>
+                                            <select className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                                id='designation'
+                                                name='designation'
+                                                value={designation}
+                                                onChange={handleChange}
+                                                required={true}
+                                            >
+                                                <option value='' disabled={true}>Pilih designation</option>
+                                                <option value='Staff'>Staff</option>
+                                                <option value='Supervisor'>Supervisor</option>
+                                                <option value='Manager'>Manager</option>
+                                                <option value='Director'>Director</option>
+                                            </select>
+                                            <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
+                                                <MdOutlineKeyboardArrowDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Hak Akses <span className='text-meta-1'>*</span>

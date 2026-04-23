@@ -43,6 +43,11 @@ const DataPegawai = db.define('data_pegawai', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
+    designation: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+        defaultValue: 'Staff'
+    },
     photo: {
         type: DataTypes.STRING(100),
         allowNull: false
