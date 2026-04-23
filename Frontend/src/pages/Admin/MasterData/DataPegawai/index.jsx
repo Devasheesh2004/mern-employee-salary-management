@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import Layout from '../../../../layout';
 import { Link, useNavigate } from 'react-router-dom';
 import { Breadcrumb, ButtonOne } from '../../../../components';
-import { FaRegEdit, FaPlus } from 'react-icons/fa';
+import { FaRegEdit, FaPlus, FaDownload } from 'react-icons/fa';
 import { BsTrash3 } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { deleteDataPegawai, getDataPegawai, getMe } from '../../../../config/redux/action';
+import { deleteDataPegawai, getDataPegawai, getMe, getDataJabatan } from '../../../../config/redux/action';
 import { BiSearch } from 'react-icons/bi';
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight, MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
@@ -20,6 +20,7 @@ const DataPegawai = () => {
     const navigate = useNavigate();
     const { isError, user } = useSelector((state) => state.auth);
     const { dataPegawai } = useSelector((state) => state.dataPegawai);
+    const { dataJabatan } = useSelector((state) => state.dataJabatan);
 
     const totalPages = Math.ceil(dataPegawai.length / ITEMS_PER_PAGE);
 
@@ -82,8 +83,36 @@ const DataPegawai = () => {
         });
     };
 
+    const handleExportCSV = () => {
+        const headers = ["Name", "Designation", "Department", "Salary"];
+        const csvRows = [];
+        csvRows.push(headers.join(','));
+
+        dataPegawai.forEach(pegawai => {
+            const jabatan = dataJabatan.find(j => j.nama_jabatan === pegawai.jabatan);
+            const salary = jabatan ? jabatan.gaji_pokok : 0;
+            
+            const row = [
+                `"${pegawai.nama_pegawai}"`,
+                `"${pegawai.designation}"`,
+                `"${pegawai.jabatan}"`,
+                `"${salary}"`
+            ];
+            csvRows.push(row.join(','));
+        });
+
+        const csvString = csvRows.join('\n');
+        const blob = new Blob([csvString], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'employee_list.csv');
+        a.click();
+    };
+
     useEffect(() => {
         dispatch(getDataPegawai(startIndex, endIndex));
+        dispatch(getDataJabatan());
     }, [dispatch, startIndex, endIndex]);
 
     useEffect(() => {
@@ -147,14 +176,22 @@ const DataPegawai = () => {
     return (
         <Layout>
             <Breadcrumb pageName="Data Pegawai" />
-            <Link to="/data-pegawai/form-data-pegawai/add">
-                <ButtonOne>
-                    <span>Tambah Pegawai</span>
+            <div className="flex gap-4">
+                <Link to="/data-pegawai/form-data-pegawai/add">
+                    <ButtonOne>
+                        <span>Tambah Pegawai</span>
+                        <span>
+                            <FaPlus />
+                        </span>
+                    </ButtonOne>
+                </Link>
+                <ButtonOne onClick={handleExportCSV}>
+                    <span>Export CSV</span>
                     <span>
-                        <FaPlus />
+                        <FaDownload />
                     </span>
                 </ButtonOne>
-            </Link>
+            </div>
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 mt-6">
                 <div className="flex justify-between items-center mt-4 flex-col md:flex-row md:justify-between">
                     <div className="relative flex-1 md:mr-2 mb-4 md:mb-0">
