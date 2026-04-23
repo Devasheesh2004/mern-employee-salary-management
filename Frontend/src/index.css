@@ -9,6 +9,21 @@
 }
 
 @layer components {
+  .responsive-table {
+    @apply w-full table-auto;
+  }
+  .responsive-table thead {
+    @apply hidden md:table-header-group;
+  }
+  .responsive-table tbody tr {
+    @apply block md:table-row mb-6 md:mb-0 border border-stroke dark:border-strokedark md:border-none rounded-sm md:rounded-none bg-white dark:bg-boxdark md:bg-transparent;
+  }
+  .responsive-table tbody td {
+    @apply block md:table-cell px-4 py-3 md:py-5 text-right md:text-center lg:text-left border-b border-stroke dark:border-strokedark md:border-b relative pl-[40%] sm:pl-[30%] md:pl-4 min-h-[3rem] items-center;
+  }
+  .responsive-table tbody td::before {
+    @apply content-[attr(data-label)] absolute left-4 top-1/2 -translate-y-1/2 font-medium text-black dark:text-white md:hidden text-left overflow-hidden text-ellipsis whitespace-nowrap;
+  }
 }
 
 @layer utilities {

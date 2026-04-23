@@ -225,7 +225,7 @@ const DataPegawai = () => {
                 </div>
 
                 <div className="max-w-full overflow-x-auto py-4">
-                    <table className="w-full table-auto">
+                    <table className="responsive-table">
                         <thead>
                             <tr className="bg-gray-2 text-left dark:bg-meta-4">
                                 <th className="py-4 px-4 font-medium text-black dark:text-white xl:pl-11">No</th>
@@ -244,39 +244,39 @@ const DataPegawai = () => {
                             {filteredDataPegawai.slice(startIndex, endIndex).map((data, index) => {
                                 return (
                                     <tr key={data.id}>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white text-center">{startIndex + index + 1}</p>
+                                        <td data-label="No" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white md:text-center inline-block">{startIndex + index + 1}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark">
-                                            <div className="h-12.5 w-15">
+                                        <td data-label="Photo" className="border-b border-[#eee] py-5 px-4 md:pl-9 dark:border-strokedark">
+                                            <div className="h-12.5 w-15 inline-block md:block">
                                                 <div className="rounded-full overflow-hidden">
                                                     <img src={`http://localhost:5000/images/${data.photo}`} alt="Photo Profil" />
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white text-center">{data.nik}</p>
+                                        <td data-label="NIK" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white md:text-center inline-block">{data.nik}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.nama_pegawai}</p>
+                                        <td data-label="Nama Pegawai" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.nama_pegawai}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.jenis_kelamin}</p>
+                                        <td data-label="Jenis Kelamin" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.jenis_kelamin}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.tanggal_masuk}</p>
+                                        <td data-label="Tanggal Masuk" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.tanggal_masuk}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.status}</p>
+                                        <td data-label="Status" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.status}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.designation}</p>
+                                        <td data-label="Designation" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.designation}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <p className="text-black dark:text-white">{data.hak_akses}</p>
+                                        <td data-label="Hak Akses" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <p className="text-black dark:text-white inline-block">{data.hak_akses}</p>
                                         </td>
-                                        <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                            <div className="flex items-center space-x-3.5">
+                                        <td data-label="Aksi" className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                            <div className="flex items-center justify-end md:justify-start space-x-3.5 inline-flex">
                                                 <Link
                                                     to={`/data-pegawai/form-data-pegawai/edit/${data.id}`}
                                                     className="hover:text-black">
