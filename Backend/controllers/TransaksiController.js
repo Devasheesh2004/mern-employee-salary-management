@@ -186,6 +186,9 @@ export const deleteDataKehadiran = async (req, res) => {
 export const createDataPotonganGaji = async (req, res) => {
   const { id, potongan, jml_potongan } = req.body;
   try {
+    if (jml_potongan < 0) {
+      return res.status(400).json({ msg: "Jumlah potongan tidak boleh bernilai negatif" });
+    }
     const nama_potongan = await PotonganGaji.findOne({
       where: {
         potongan: potongan,
@@ -236,6 +239,9 @@ export const viewDataPotonganByID = async (req, res) => {
 // method untuk update Data Potongan
 export const updateDataPotongan = async (req, res) => {
   try {
+    if (req.body.jml_potongan < 0) {
+      return res.status(400).json({ msg: "Jumlah potongan tidak boleh bernilai negatif" });
+    }
     await PotonganGaji.update(req.body, {
       where: {
         id: req.params.id,
