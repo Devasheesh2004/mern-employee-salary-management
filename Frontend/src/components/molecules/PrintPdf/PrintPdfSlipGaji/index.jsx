@@ -24,9 +24,11 @@ const PrintPdfSlipGaji = () => {
 
     const [bulan, setBulan] = useState("");
     const [tahun, setTahun] = useState("");
+    const [tanggalCetak, setTanggalCetak] = useState("");
 
     const { isError, user } = useSelector((state) => state.auth);
-    const { dataSlipGaji } = useSelector((state) => state.slipGaji);
+    const slipGajiState = useSelector((state) => state.slipGaji);
+    const dataSlipGaji = slipGajiState?.dataSlipGaji || [];
 
     const getDataByYear = async (selectedYear) => {
         dispatch(fetchSlipGajiByYear(selectedYear));
@@ -46,10 +48,8 @@ const PrintPdfSlipGaji = () => {
     });
 
     useEffect(() => {
-        getDataByYear(year);
-        getDataByMonth(month);
         getDataByName(name);
-    }, [year, month, name]);
+    }, [name]);
 
     useEffect(() => {
         dispatch(getMe());
@@ -76,6 +76,10 @@ const PrintPdfSlipGaji = () => {
         const year = today.getFullYear();
         setBulan(month);
         setTahun(year);
+
+        const dayNum = String(today.getDate()).padStart(2, '0');
+        const monthNum = String(today.getMonth() + 1).padStart(2, '0');
+        setTanggalCetak(`${dayNum}/${monthNum}/${year}`);
     }, []);
 
     return (
@@ -95,7 +99,7 @@ const PrintPdfSlipGaji = () => {
                 </div>
             </div >
             <div ref={componentRef} >
-                {dataSlipGaji.map((data, index) => {
+                {dataSlipGaji.filter(data => data.bulan.toLowerCase() === month.toLowerCase() && data.tahun.toString() === year.toString()).map((data, index) => {
                     return (
                         <div key={index} className="w-200% h-100% p-10 bg-white dark:bg-meta-4">
                             <div className="flex items-center gap-24 object-cover border-b-4 border-black dark:border-white">
@@ -231,7 +235,7 @@ const PrintPdfSlipGaji = () => {
                                     <span>{name}</span>
                                 </div>
                                 <div className="font-medium text-black dark:text-white">
-                                    <span className="text-right">Karawang, {`${new Date().getDate()} ${bulan} ${tahun}`}</span>
+                                    <span className="text-right">Karawang, {tanggalCetak}</span>
                                     <br />
                                     <span>Finance</span>
                                     <br />
@@ -240,7 +244,7 @@ const PrintPdfSlipGaji = () => {
                                 </div>
                             </div>
                             <div className="italic text-black dark:text-white mt-30">
-                                Dicetak Pada : {`${new Date().getDate()} ${bulan} ${tahun}`}
+                                Dicetak Pada : {tanggalCetak}
                             </div>
                         </div>
                     );

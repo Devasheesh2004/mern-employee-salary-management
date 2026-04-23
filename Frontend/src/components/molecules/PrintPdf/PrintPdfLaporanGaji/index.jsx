@@ -21,6 +21,7 @@ const PrintPdfLaporanGaji = () => {
   const year = searchParams.get("year");
   const [bulan, setBulan] = useState("");
   const [tahun, setTahun] = useState("");
+  const [tanggalCetak, setTanggalCetak] = useState("");
 
   const { isError, user } = useSelector((state) => state.auth);
   const { dataLaporanGaji } = useSelector((state) => state.laporanGaji);
@@ -68,6 +69,10 @@ const PrintPdfLaporanGaji = () => {
     const year = today.getFullYear();
     setBulan(month);
     setTahun(year);
+
+    const dayNum = String(today.getDate()).padStart(2, '0');
+    const monthNum = String(today.getMonth() + 1).padStart(2, '0');
+    setTanggalCetak(`${dayNum}/${monthNum}/${year}`);
   }, []);
 
   return (
@@ -190,7 +195,7 @@ const PrintPdfLaporanGaji = () => {
         </div>
         <div className="py-6">
           <div className="font-medium text-black text-right dark:text-white">
-            <span>Karawang, {`${new Date().getDate()} ${bulan} ${tahun}`}</span>
+            <span>Karawang, {tanggalCetak}</span>
             <br />
             <span className="p-26">Finance</span>
             <br />
@@ -199,7 +204,7 @@ const PrintPdfLaporanGaji = () => {
           </div>
         </div>
         <div className="italic text-black dark:text-white mt-40">
-          Dicetak Pada : {`${new Date().getDate()} ${bulan} ${tahun}`}
+          Dicetak Pada : {tanggalCetak}
         </div>
       </div>
     </>
